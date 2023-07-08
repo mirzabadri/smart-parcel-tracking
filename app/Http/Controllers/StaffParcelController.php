@@ -120,7 +120,7 @@ class StaffParcelController extends Controller
             } catch (TwilioException $e) {
                 // Handle Twilio exception if something goes wrong with sending the WhatsApp message
             }
-            dd($e->getMessage());
+            //dd($e->getMessage());
         }
         
 
