@@ -67,10 +67,9 @@
             qrModalBody.innerHTML = qrCodeSvg;
 
             const qrModal = new bootstrap.Modal(document.getElementById('qrModal'));
-            qrModalBody.style.textAlign = 'center';
-            qrModalBody.style.margin = 'auto';
+            qrModalBody.classList.add('text-center', 'mx-auto');
             qrModalBody.style.maxWidth = '90vw';
-            qrModalBody.style.width = '90vw';
+            qrModalBody.style.width = '90%';
 
             const modalContent = document.querySelector('#qrModal .modal-content');
             modalContent.innerHTML = '';
