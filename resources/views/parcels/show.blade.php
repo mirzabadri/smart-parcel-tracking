@@ -48,6 +48,7 @@
                         Unknown
                     @endif
                 </p>
+                <button id="show-qr-code" class="btn btn-primary">Show QR Code</button> <!-- Button to show the QR code -->
             </div>
             <div class="card-footer">
                 <a href="{{ route('parcels.index') }}" class="btn btn-secondary">Back</a>
@@ -59,5 +60,37 @@
     @include('layouts.footer')
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('show-qr-code').addEventListener('click', function() {
+            const qrCodeSvg = `{!! QrCode::size(300)->format('svg')->generate($parcel->tracking_number) !!}`;
+            const qrModalBody = document.createElement('div');
+            qrModalBody.innerHTML = qrCodeSvg;
+
+            const qrModal = new bootstrap.Modal(document.getElementById('qrModal'));
+            qrModalBody.style.textAlign = 'center';
+            qrModalBody.style.margin = 'auto';
+            qrModalBody.style.maxWidth = '90vw';
+            qrModalBody.style.width = '90vw';
+
+            const modalContent = document.querySelector('#qrModal .modal-content');
+            modalContent.innerHTML = '';
+            modalContent.appendChild(qrModalBody);
+
+            qrModal.show();
+        });
+    </script>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="qrModal" tabindex="-1" aria-labelledby="qrModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="qrModalLabel">QR Code</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body"></div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
