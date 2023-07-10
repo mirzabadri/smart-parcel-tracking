@@ -49,12 +49,14 @@
                     @endif
                 </p>
                 <button id="show-qr-code" class="btn btn-primary">Show QR Code</button> <!-- Button to show the QR code -->
+                <button id="show-tracking-history" class="btn btn-primary">Show Tracking History</button> <!-- Button to show the tracking history -->
             </div>
             <div class="card-footer">
                 <a href="{{ route('parcels.index') }}" class="btn btn-secondary">Back</a>
                 <a href="{{ route('parcels.edit', $parcel) }}" class="btn btn-primary">Edit</a>
             </div>
         </div>
+
     </main>
 
     @include('layouts.footer')
@@ -77,8 +79,49 @@
 
             qrModal.show();
         });
+
+        document.getElementById('show-tracking-history').addEventListener('click', function() {
+            // Fetch tracking history data
+            console.log('Fetching tracking history...');
+            fetch(`/parcels/{{ $parcel->id }}/tracking-history`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Received tracking history data:', data);
+
+                    const trackingList = document.getElementById('tracking-list');
+                    trackingList.innerHTML = '';
+
+                    // Display tracking history
+                    data.forEach(tracking => {
+                        const row = document.createElement('tr');
+                        const timestampCell = document.createElement('td');
+                        const statusCell = document.createElement('td');
+
+                        let formattedDate = 'N/A'; // Default value if updated_at is undefined
+
+                        if (tracking.updated_at) {
+                            const updatedDate = new Date(tracking.updated_at.replace(' ', 'T')); // Convert to ISO 8601 format
+                            formattedDate = updatedDate.toLocaleString(); // Change the date format if needed
+                        }
+
+                        timestampCell.textContent = formattedDate;
+                        statusCell.textContent = tracking.status;
+
+                        row.appendChild(timestampCell);
+                        row.appendChild(statusCell);
+                        trackingList.appendChild(row);
+                    });
+
+                    // Show the tracking history modal
+                    const trackingModal = new bootstrap.Modal(document.getElementById('trackingModal'));
+                    trackingModal.show();
+                })
+                .catch(error => {
+                    console.error('Error fetching tracking history:', error);
+                });
+        });
     </script>
-    
+
     <!-- Modal -->
     <div class="modal fade" id="qrModal" tabindex="-1" aria-labelledby="qrModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -88,6 +131,29 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tracking History Modal -->
+    <div class="modal fade" id="trackingModal" tabindex="-1" aria-labelledby="trackingModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="trackingModalLabel">Tracking History</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tracking-list"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

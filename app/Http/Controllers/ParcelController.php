@@ -6,6 +6,7 @@ use App\Models\Parcel;
 use Illuminate\Http\Request;
 use App\Notifications\ParcelDelivered;
 use Twilio\Rest\Client;
+use App\Models\TrackingHistory;
 
 
 class ParcelController extends Controller
@@ -51,7 +52,6 @@ class ParcelController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $data = $request->validate([
             'sender_name' => 'required',
             'sender_address' => 'required',
@@ -64,9 +64,23 @@ class ParcelController extends Controller
             'tracking_number' => 'required|unique:parcels'
         ]);
 
-        Parcel::create($data);
+        $parcel = Parcel::create($data); // Save the new parcel and retrieve it from the database
+
+        try {
+            // Create a new tracking history entry
+            $trackingHistory = new TrackingHistory();
+            $trackingHistory->parcel_id = $parcel->id;
+            $trackingHistory->status = 'pending'; // Initial status, you can modify it as needed
+            $trackingHistory->save();
+        } catch (\Exception $e) {
+            // Log or handle the exception
+            dd($e->getMessage()); // Print the error message for debugging
+        }
+        
+        
         return redirect()->route('parcels.index')->with('message', 'Parcel created!');
     }
+
 
     /**
      * Display the specified resource.
@@ -122,4 +136,31 @@ class ParcelController extends Controller
         $parcel->delete();
         return redirect()->route('parcels.index');
     }
+
+    public function trackingHistory(Parcel $parcel)
+    {
+        $trackingHistory = $parcel->trackingHistory()->get(['status', 'updated_at'])->map(function ($tracking) {
+            return [
+                'status' => $this->getStatusText($tracking->status),
+                'updated_at' => $tracking->updated_at->toDateTimeString()
+            ];
+        });
+
+        return response()->json($trackingHistory);
+    }
+
+    private function getStatusText($status)
+    {
+        switch ($status) {
+            case 'pending':
+                return 'Pending';
+            case 'in_transit':
+                return 'In Transit';
+            case 'delivered':
+                return 'Delivered';
+            default:
+                return 'Unknown';
+        }
+    }
+
 }

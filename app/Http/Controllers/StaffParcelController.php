@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Notifications\ParcelDelivered;
 use Twilio\Rest\Client;
 use Twilio\Exceptions\TwilioException;
+use App\Models\TrackingHistory;
+
 
 
 class StaffParcelController extends Controller
@@ -94,6 +96,11 @@ class StaffParcelController extends Controller
         ]);
 
         $parcel->update($data);
+
+        $trackingHistory = new TrackingHistory();
+        $trackingHistory->parcel_id = $parcel->id;
+        $trackingHistory->status = $parcel->status;
+        $trackingHistory->save();
 
         /*if($data['status'] === 'delivered') {
             $parcel->user->notify(new \App\Notifications\ParcelDelivered($parcel));

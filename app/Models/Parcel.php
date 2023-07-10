@@ -21,4 +21,10 @@ class Parcel extends Model
         'tracking_number',
         'status'
     ];
+
+    public function trackingHistory()
+    {
+        return $this->hasMany(TrackingHistory::class);
+    }
+
 }

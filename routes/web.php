@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ParcelController;
@@ -81,7 +82,6 @@ Route::prefix('staff')->middleware(['auth', 'supervisor', 'driver', 'sorter'])->
     Route::delete('/complaints/{complaint}', [StaffComplaintController::class, 'destroy'])->name('staff.complaints.destroy');
 
     Route::get('/scan-parcel', [ParcelController::class, 'scanPage'])->name('staff.scan.parcel');
-
 });
 
 // Staff list, edit, and delete routes (accessible by admin only)
@@ -110,3 +110,6 @@ Route::get('/staff/unauthorized', function () {
 Route::get('/admin/unauthorized', function () {
     return view('admin.unauthorized');
 })->name('admin.unauthorized');
+
+// Tracking history route
+Route::get('/parcels/{parcel}/tracking-history', [ParcelController::class, 'trackingHistory'])->name('parcels.tracking-history');
