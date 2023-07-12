@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,61 +18,119 @@
 
     <!-- Scripts -->
     @vite('resources/js/app.js')
+
+    <!-- Vendor CSS Files -->
+    <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/quill/quill.snow.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/quill/quill.bubble.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/simple-datatables/style.css') }}" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
 </head>
+
 <body>
     @include('layouts.navbar')
 
-    <main class="container py-4">
+    <main class="main" id="main">
         <div class="card">
-            <div class="card-header bg-primary text-white">
-                <h2 class="card-title">Edit Parcel</h2>
-            </div>
             <div class="card-body">
+                <h5 class="card-title">Edit Parcel</h5>
                 <form action="{{ route('parcels.update', $parcel) }}" method="POST">
                     @csrf
                     @method('PUT')
-                    <div class="mb-3">
-                        <label for="sender_name" class="form-label">Sender Name</label>
-                        <input type="text" class="form-control" id="sender_name" name="sender_name" value="{{ $parcel->sender_name }}" required>
+                    <div class="row mb-3">
+                        <label for="sender_name" class="col-sm-2 col-form-label">Sender Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="sender_name" name="sender_name"
+                                value="{{ $parcel->sender_name }}" required>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="sender_address" class="form-label">Sender Address</label>
-                        <input type="text" class="form-control" id="sender_address" name="sender_address" value="{{ $parcel->sender_address }}" required>
+                    <div class="row mb-3">
+                        <label for="sender_address" class="col-sm-2 col-form-label">Sender Address</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="sender_address" name="sender_address"
+                                value="{{ $parcel->sender_address }}" required>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="sender_phone_number" class="form-label">Sender Phone Number</label>
-                        <input type="text" class="form-control" id="sender_phone_number" name="sender_phone_number" value="{{ $parcel->sender_phone_number }}" required>
+                    <div class="row mb-3">
+                        <label for="sender_phone_number" class="col-sm-2 col-form-label">Sender Phone Number</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="sender_phone_number"
+                                name="sender_phone_number" value="{{ $parcel->sender_phone_number }}" required>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="receiver_name" class="form-label">Receiver Name</label>
-                        <input type="text" class="form-control" id="receiver_name" name="receiver_name" value="{{ $parcel->receiver_name }}" required>
+                    <div class="row mb-3">
+                        <label for="receiver_name" class="col-sm-2 col-form-label">Receiver Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="receiver_name" name="receiver_name"
+                                value="{{ $parcel->receiver_name }}" required>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="receiver_address" class="form-label">Receiver Address</label>
-                        <input type="text" class="form-control" id="receiver_address" name="receiver_address" value="{{ $parcel->receiver_address }}" required>
+                    <div class="row mb-3">
+                        <label for="receiver_address" class="col-sm-2 col-form-label">Receiver Address</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="receiver_address" name="receiver_address"
+                                value="{{ $parcel->receiver_address }}" required>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="receiver_phone_number" class="form-label">Receiver Phone Number</label>
-                        <input type="text" class="form-control" id="receiver_phone_number" name="receiver_phone_number" value="{{ $parcel->receiver_phone_number }}" required>
+                    <div class="row mb-3">
+                        <label for="receiver_phone_number" class="col-sm-2 col-form-label">Receiver Phone Number</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="receiver_phone_number"
+                                name="receiver_phone_number" value="{{ $parcel->receiver_phone_number }}" required>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="weight" class="form-label">Weight (kg)</label>
-                        <input type="number" class="form-control" id="weight" name="weight" step="0.01" value="{{ $parcel->weight }}" required>
+                    <div class="row mb-3">
+                        <label for="weight" class="col-sm-2 col-form-label">Weight (kg)</label>
+                        <div class="col-sm-10">
+                            <input type="number" step="0.01" class="form-control" id="weight" name="weight"
+                                value="{{ $parcel->weight }}" required>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control" id="description" name="description">{{ $parcel->description }}</textarea>
+                    <div class="row mb-3">
+                        <label for="description" class="col-sm-2 col-form-label">Description</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="description" name="description">{{ $parcel->description }}</textarea>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="tracking_number" class="form-label">Tracking Number</label>
-                        <input type="text" class="form-control" id="tracking_number" name="tracking_number" value="{{ $parcel->tracking_number }}" readonly>
+                    <div class="row mb-3">
+                        <label for="tracking_number" class="col-sm-2 col-form-label">Tracking Number</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="tracking_number" name="tracking_number"
+                                value="{{ $parcel->tracking_number }}" readonly>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Update</button>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
                 </form>
             </div>
         </div>
+
     </main>
 
     @include('layouts.footer')
 </body>
+
 </html>
+
+<!-- Vendor JS Files -->
+<script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/chart.js/chart.umd.js') }}"></script>
+<script src="{{ asset('assets/vendor/echarts/echarts.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/quill/quill.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
+<script src="{{ asset('assets/vendor/tinymce/tinymce.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
+
+<!-- Template Main JS File -->
+<script src="{{ asset('assets/js/main.js') }}"></script>
+
+<!-- Vendor JS Files -->
+<script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

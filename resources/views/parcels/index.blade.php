@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,42 +18,85 @@
 
     <!-- Scripts -->
     @vite('resources/js/app.js')
+
+    <!-- Vendor CSS Files -->
+    <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/quill/quill.snow.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/quill/quill.bubble.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/simple-datatables/style.css') }}" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+
+    <style>
+        .table-container {
+            overflow-x: auto;
+            resize: horizontal;
+            overflow: auto;
+        }
+    </style>
 </head>
+
 <body>
     @include('layouts.navbar')
 
-    <main class="container py-4">
+    <main id="main" class="main">
         <div class="card">
-            <div class="card-header bg-primary text-white">
-                <h2 class="card-title">Parcels</h2>
-            </div>
             <div class="card-body">
-                <ul class="list-group">
-                    @foreach ($parcels as $parcel)
-                        <div class="list-group-item d-flex justify-content-between align-items-center">
-                            <div>
-                                {!! QrCode::size(100)->generate($parcel->tracking_number) !!}
+                <h5 class="card-title">Parcels</h5>
+                <div class="table-container">
+                    <ul class="list-group">
+                        @foreach ($parcels as $parcel)
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    {!! QrCode::size(100)->generate($parcel->tracking_number) !!}
+                                </div>
+                                <div>
+                                    <a href="{{ route('parcels.show', $parcel) }}">
+                                        {{ $parcel->tracking_number }}
+                                    </a>
+                                </div>
+                                <div class="d-flex">
+                                    <a href="{{ route('parcels.edit', $parcel) }}"
+                                        class="btn btn-sm btn-outline-primary me-2">Edit</a>
+                                    <form action="{{ route('parcels.destroy', $parcel) }}" method="POST"
+                                        class="d-inline"
+                                        onsubmit="return confirm('Are you sure you want to delete this parcel?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                    </form>
+                                </div>
                             </div>
-                            <div>
-                                <a href="{{ route('parcels.show', $parcel) }}">
-                                    {{ $parcel->sender_name }} to {{ $parcel->receiver_name }}
-                                </a>
-                            </div>
-                            <div class="d-flex">
-                                <a href="{{ route('parcels.edit', $parcel) }}" class="btn btn-sm btn-outline-primary me-2">Edit</a>
-                                <form action="{{ route('parcels.destroy', $parcel) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this parcel?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                                </form>
-                            </div>
-                        </div>
-                    @endforeach
-                </ul>
+                        @endforeach
+                    </ul>
+                </div>
             </div>
         </div>
     </main>
 
     @include('layouts.footer')
+
+    <!-- Vendor JS Files -->
+    <script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/chart.js/chart.umd.js') }}"></script>
+    <script src="{{ asset('assets/vendor/echarts/echarts.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/quill/quill.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
+    <script src="{{ asset('assets/vendor/tinymce/tinymce.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
+
+    <!-- Template Main JS File -->
+    <script src="{{ asset('assets/js/main.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Vendor JS Files -->
+    <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
+
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,45 +18,76 @@
 
     <!-- Scripts -->
     @vite('resources/js/app.js')
+
+    <!-- Vendor CSS Files -->
+    <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/quill/quill.snow.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/quill/quill.bubble.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/simple-datatables/style.css') }}" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
 </head>
+
 <body>
     @include('layouts.navbar')
 
-    <main class="container py-4">
+    <<main id="main" class="main">
         <div class="card">
-            <div class="card-header bg-primary text-white">
-                <h2 class="card-title">Edit Complaint</h2>
-            </div>
             <div class="card-body">
-        <form method="POST" action="{{ route('complaints.update', $complaint) }}">
-            @csrf
-            @method('PUT')
+                <h5 class="card-title">Edit Complaint</h5>
+                <form method="POST" action="{{ route('complaints.update', $complaint) }}">
+                    @csrf
+                    @method('PUT')
 
-            <div class="mb-3">
-                <label for="customer_name" class="form-label">Your Name:</label>
-                <input id="customer_name" name="customer_name" type="text" class="form-control" value="{{ $complaint->customer_name }}" required>
+                    <div class="mb-3">
+                        <label for="customer_name" class="form-label">Your Name:</label>
+                        <input id="customer_name" name="customer_name" type="text" class="form-control"
+                            value="{{ $complaint->customer_name }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="parcel_id" class="form-label">Parcel ID:</label>
+                        <input id="parcel_id" name="parcel_id" type="number" class="form-control"
+                            value="{{ $complaint->parcel_id }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="complaint_details" class="form-label">Complaint Details:</label>
+                        <textarea id="complaint_details" name="complaint_details" class="form-control" required>{{ $complaint->complaint_details }}</textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </form>
             </div>
-
-            <div class="mb-3">
-                <label for="parcel_id" class="form-label">Parcel ID:</label>
-                <input id="parcel_id" name="parcel_id" type="number" class="form-control" value="{{ $complaint->parcel_id }}" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="complaint_details" class="form-label">Complaint Details:</label>
-                <textarea id="complaint_details" name="complaint_details" class="form-control" required>{{ $complaint->complaint_details }}</textarea>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Update</button>
-        </form>
-    </div>
-</div>
-</main>
+        </div>
+        </main>
 
         @if (session('message'))
             <p>{{ session('message') }}</p>
         @endif
 
-    @include('layouts.footer')
+        @include('layouts.footer')
 </body>
+
 </html>
+
+<!-- Vendor JS Files -->
+<script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/chart.js/chart.umd.js') }}"></script>
+<script src="{{ asset('assets/vendor/echarts/echarts.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/quill/quill.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
+<script src="{{ asset('assets/vendor/tinymce/tinymce.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
+
+<!-- Template Main JS File -->
+<script src="{{ asset('assets/js/main.js') }}"></script>
+
+<!-- Vendor JS Files -->
+<script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
