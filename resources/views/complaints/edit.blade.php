@@ -35,7 +35,7 @@
 <body>
     @include('layouts.navbar')
 
-    <<main id="main" class="main">
+    <main id="main" class="main">
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Edit Complaint</h5>
@@ -59,18 +59,19 @@
                         <label for="complaint_details" class="form-label">Complaint Details:</label>
                         <textarea id="complaint_details" name="complaint_details" class="form-control" required>{{ $complaint->complaint_details }}</textarea>
                     </div>
-
-                    <button type="submit" class="btn btn-primary">Update</button>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
                 </form>
             </div>
         </div>
-        </main>
+    </main>
 
-        @if (session('message'))
-            <p>{{ session('message') }}</p>
-        @endif
+    @if (session('message'))
+        <p>{{ session('message') }}</p>
+    @endif
 
-        @include('layouts.footer')
+    @include('layouts.footer')
 </body>
 
 </html>

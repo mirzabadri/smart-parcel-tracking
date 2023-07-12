@@ -44,57 +44,57 @@
                 <form method="POST" action="{{ route('parcels.store') }}">
                     @csrf
                     <div class="row mb-3">
-                        <label for="inputText" class="col-sm-2 col-form-label">Sender Name</label>
+                        <label for="sender_name" class="col-sm-2 col-form-label">Sender Name</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="sender_name" name="sender_name">
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="inputText" class="col-sm-2 col-form-label">Sender Address</label>
+                        <label for="sender_address" class="col-sm-2 col-form-label">Sender Address</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="sender_address" name="sender_address">
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="inputText" class="col-sm-2 col-form-label">Sender Phone Number</label>
+                        <label for="sender_phone_number" class="col-sm-2 col-form-label">Sender Phone Number</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="sender_phone_number"
                                 name="sender_phone_number">
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="inputText" class="col-sm-2 col-form-label">Receiver Name</label>
+                        <label for="receiver_name" class="col-sm-2 col-form-label">Receiver Name</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="receiver_name" name="receiver_name">
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="inputText" class="col-sm-2 col-form-label">Receiver Address</label>
+                        <label for="receiver_address" class="col-sm-2 col-form-label">Receiver Address</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="receiver_address" name="receiver_address">
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="inputText" class="col-sm-2 col-form-label">Receiver Phone Number</label>
+                        <label for="receiver_phone_number" class="col-sm-2 col-form-label">Receiver Phone Number</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="receiver_phone_number"
                                 name="receiver_phone_number">
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="inputText" class="col-sm-2 col-form-label">Weight (kg)</label>
+                        <label for="weight" class="col-sm-2 col-form-label">Weight (kg)</label>
                         <div class="col-sm-10">
                             <input type="number" step="0.01" class="form-control" id="weight" name="weight">
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="inputText" class="col-sm-2 col-form-label">Description</label>
+                        <label for="description" class="col-sm-2 col-form-label">Description</label>
                         <div class="col-sm-10">
                             <textarea class="form-control" id="description" name="description"></textarea>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="inputText" class="col-sm-2 col-form-label">Tracking Number</label>
+                        <label for="tracking_number" class="col-sm-2 col-form-label">Tracking Number</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="tracking_number" name="tracking_number"
                                 value="{{ $trackingNumber }}" readonly>

@@ -1,76 +1,115 @@
 <!-- /resources/views/layouts/navbar.blade.php -->
 
-<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-    <div class="container">
-        <a class="navbar-brand" href="{{ url('staff/home') }}">
-            {{ config('app.name', 'Smart Parcel Tracking') }}
+<header id="header" class="header fixed-top d-flex align-items-center">
+    <div class="d-flex align-items-center justify-content-between">
+        <a href="/staff/home" class="logo d-flex align-items-center">
+            <img src="/assets/img/logo.png" alt="">
+            <span class="d-none d-lg-block" style="font-size: 20px">Smart Parcel Tracking</span>
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <!-- Left Side Of Navbar -->
-            <ul class="navbar-nav me-auto">
-                @auth
-                    <!-- Links for logged-in users -->
-                    <li class="nav-item dropdown">
-                        <a id="parcelDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Parcels
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="parcelDropdown">
-                            <a class="dropdown-item" href="{{ route('staff.parcels.create') }}">Register Parcel</a>
-                            <a class="dropdown-item" href="{{ route('staff.parcels.index') }}">View Parcels</a>
-                            <a class="dropdown-item" href="{{ route('staff.scan.parcel') }}">Scan Parcel</a> <!-- New option for scanning parcel -->
-                        </div>
+
+    <nav class="header-nav ms-auto">
+        <ul class="d-flex align-items-center" style="padding-right: 15px">
+            @guest
+                @if (Route::has('login'))
+                    <li class="nav-item" style="padding-right: 10px;">
+                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a id="complaintDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Complaints
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="complaintDropdown">
-                            <a class="dropdown-item" href="{{ route('staff.complaints.create') }}">Create Complaint</a>
-                            <a class="dropdown-item" href="{{ route('staff.complaints.index') }}">View Complaints</a>
-                        </div>
+                @endif
+
+                @if (Route::has('register'))
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                     </li>
-                @endauth
+                @endif
+            @else
+                <!-- Right Side Of Navbar -->
+                <li class="nav-item dropdown pe-3">
+                <li class="nav-item dropdown">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        {{ Auth::user()->name }}
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ route('password.request') }}">Reset Password</a>
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </div>
+                </li>
+                </li>
             </ul>
+        </nav><!-- End Icons Navigation -->
+    @endguest
 
-            <!-- Right Side Of Navbar -->
-            <ul class="navbar-nav ms-auto">
-                <!-- Authentication Links -->
-                @guest
-                    @if (Route::has('login'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                        </li>
-                    @endif
+</header><!-- End Header -->
 
-                    @if (Route::has('register'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                        </li>
-                    @endif
-                @else
-                    <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            {{ Auth::user()->name }}
+@auth
+    <aside id="sidebar" class="sidebar">
+        <!-- Existing sidebar content -->
+        <!-- ... -->
+
+        <!-- ======= Sidebar ======= -->
+        <ul class="sidebar-nav" id="sidebar-nav">
+            <li class="nav-item">
+                <a class="nav-link " href="/staff/home">
+                    <i class="bi bi-grid"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li><!-- End Dashboard Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#parcels-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-box-seam"></i><span>Parcels</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="parcels-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="{{ route('staff.parcels.create') }}">
+                            <i class="bi bi-circle"></i><span>Register Parcel</span>
                         </a>
-
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('password.request') }}">Reset Password</a>
-                            <a class="dropdown-item" href="{{ route('logout') }}"
-                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
-                            </a>
-
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-                        </div>
                     </li>
-                @endguest
-            </ul>
-        </div>
-    </div>
-</nav>
+                    <li>
+                        <a href="{{ route('staff.parcels.index') }}">
+                            <i class="bi bi-circle"></i><span>View Parcels</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('staff.scan.parcel') }}">
+                            <i class="bi bi-circle"></i><span>Scan Parcel</span>
+                        </a>
+                    </li>
+                </ul>
+            </li><!-- End Parcels Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#complaints-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-chat-left-text"></i><span>Complaints</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="complaints-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="{{ route('staff.complaints.create') }}">
+                            <i class="bi bi-circle"></i><span>Create Complaint</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('staff.complaints.index') }}">
+                            <i class="bi bi-circle"></i><span>View Complaints</span>
+                        </a>
+                    </li>
+                </ul>
+            </li><!-- End Complaints Nav -->
+
+            <!-- Existing menu items -->
+            <!-- ... -->
+
+        </ul>
+    </aside><!-- End Sidebar -->
+@endauth

@@ -9,23 +9,22 @@
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
 
-    
-        <nav class="header-nav ms-auto">
-            <ul class="d-flex align-items-center" style="padding-right: 15px">
-            @guest
-            @if (Route::has('login'))
-                <li class="nav-item" style="padding-right: 10px;">
-                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                </li>
-            @endif
 
-            @if (Route::has('register'))
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                </li>
-            @endif
-        @else
-            
+    <nav class="header-nav ms-auto">
+        <ul class="d-flex align-items-center" style="padding-right: 15px">
+            @guest
+                @if (Route::has('login'))
+                    <li class="nav-item" style="padding-right: 10px;">
+                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                    </li>
+                @endif
+
+                @if (Route::has('register'))
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                    </li>
+                @endif
+            @else
                 <!-- Right Side Of Navbar -->
                 <li class="nav-item dropdown pe-3">
                 <li class="nav-item dropdown">
@@ -49,8 +48,8 @@
                 </li>
             </ul>
         </nav><!-- End Icons Navigation -->
-        @endguest
-    
+    @endguest
+
 </header><!-- End Header -->
 
 @auth
@@ -69,7 +68,7 @@
 
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#parcels-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-menu-button-wide"></i><span>Parcels</span><i class="bi bi-chevron-down ms-auto"></i>
+                    <i class="bi bi-box-seam"></i><span>Parcels</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="parcels-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
