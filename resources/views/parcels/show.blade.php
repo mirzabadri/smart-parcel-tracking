@@ -46,7 +46,8 @@
             left: 0;
             /* Changed from left: 50% */
             width: 2px;
-            background-color: #ccc;
+            background-color: #32baa5;
+            /* Point color */
         }
 
         .timeline-event {
@@ -62,43 +63,17 @@
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            border: 2px solid #ccc;
-        }
-
-        .timeline-event:nth-child(1)::before {
-            background-color: #ff0000; /* Red */
-        }
-
-        .timeline-event:nth-child(2)::before {
-            background-color: #00ff00; /* Green */
-        }
-
-        .timeline-event:nth-child(3)::before {
-            background-color: #0000ff; /* Blue */
-        }
-
-        .timeline-event:nth-child(4)::before {
-            background-color: #ff00ff; /* Magenta */
-        }
-
-        .timeline-event:nth-child(5)::before {
-            background-color: #ffa500; /* Orange */
+            border: 2px solid #32baa5;
+            /* Point color */
+            background-color: #32baa5;
+            /* Point color */
         }
 
         .timeline-event:nth-child(n+2)::before,
         .timeline-event:nth-child(n+2)::after {
             /* Line color from previous point */
-            border-color: var(--prev-color);
-        }
-
-        .timeline-event:nth-child(n+2)::after {
-            content: "";
-            position: absolute;
-            left: -5px;
-            top: 13px;
-            height: calc(100% - 10px);
-            width: 2px;
-            background-color: var(--prev-color);
+            border-color: #32baa5;
+            /* Point color */
         }
 
         /* Add more color styles for additional timeline events */
@@ -116,6 +91,7 @@
             padding-left: 34px;
         }
     </style>
+
 
 </head>
 
@@ -203,7 +179,8 @@
                         if (index === 0) {
                             prevColor = getComputedStyle(event).getPropertyValue('background-color');
                         } else {
-                            prevColor = getComputedStyle(event.previousSibling).getPropertyValue('background-color');
+                            prevColor = getComputedStyle(event.previousSibling).getPropertyValue(
+                                'background-color');
                         }
                     });
 
