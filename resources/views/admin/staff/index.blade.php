@@ -27,9 +27,10 @@
                                     <td>{{ ucfirst($accountMember->role) }}</td>
                                     <td>
                                         <a href="{{ route('admin.staff.edit', $accountMember->id) }}"
-                                            class="btn btn-primary">Edit</a>
+                                            class="btn btn-primary" style="margin-right: 10px;">Edit</a>
                                         <form action="{{ route('admin.staff.destroy', $accountMember->id) }}" method="POST"
-                                            class="d-inline-block">
+                                            class="d-inline-block"
+                                            onsubmit="return confirm('Are you sure you want to delete this account?');">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger">Delete</button>
