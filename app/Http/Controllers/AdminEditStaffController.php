@@ -9,9 +9,9 @@ class AdminEditStaffController extends Controller
 {
     public function index()
     {
-        $user = User::all();
+        $accountMembers = User::all();
 
-        return view('admin.staff.index', compact('user'));
+        return view('admin.staff.index', compact('accountMembers'));
     }
 
     public function edit($id)
@@ -28,12 +28,13 @@ class AdminEditStaffController extends Controller
         // Update staff details based on the form input
         $user->name = $request->input('name');
         $user->email = $request->input('email');
-        // Update other staff attributes as needed
+        $user->role = $request->input('role'); // Update the role field
 
         $user->save();
 
         return redirect()->route('admin.staff.index')->with('success', 'Staff details updated successfully.');
     }
+
 
     public function destroy($id)
     {
