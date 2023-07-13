@@ -70,14 +70,13 @@ class ParcelController extends Controller
             // Create a new tracking history entry
             $trackingHistory = new TrackingHistory();
             $trackingHistory->parcel_id = $parcel->id;
-            $trackingHistory->status = 'pending'; // Initial status, you can modify it as needed
+            $trackingHistory->status = 'created'; // Initial status, you can modify it as needed
             $trackingHistory->save();
         } catch (\Exception $e) {
             // Log or handle the exception
             dd($e->getMessage()); // Print the error message for debugging
         }
-        
-        
+
         return redirect()->route('parcels.index')->with('message', 'Parcel created!');
     }
 
@@ -152,12 +151,16 @@ class ParcelController extends Controller
     private function getStatusText($status)
     {
         switch ($status) {
-            case 'pending':
-                return 'Pending';
-            case 'in_transit':
-                return 'In Transit';
+            case 'created':
+                return 'Order Created';
+            case 'picked_up':
+                return 'Parcel has been picked up';
+            case 'departed':
+                return 'Parcel has departed from the sorting facility';
+            case 'out_for_delivery':
+                return 'Parcel is out for delivery';
             case 'delivered':
-                return 'Delivered';
+                return 'Parcel has been delivered';
             default:
                 return 'Unknown';
         }

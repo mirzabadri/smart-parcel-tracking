@@ -38,26 +38,41 @@
     <main class="main" id="main">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Edit Parcel</h5>
+                <h5 class="card-title">Edit Tracking Status</h5>
                 <form action="{{ route('staff.parcels.update', $parcel->id) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="mb-3">
-                        <label for="sender_name" class="form-label">Sender Name</label>
-                        <input type="text" class="form-control" id="sender_name" name="sender_name"
-                            value="{{ $parcel->sender_name }}" required>
-                        @error('sender_name')
+                        <label for="tracking_number" class="form-label">Tracking Number</label>
+                        <input type="text" class="form-control" id="tracking_number" name="tracking_number"
+                            value="{{ $parcel->tracking_number }}" required>
+                        @error('tracking_number')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
+                    
+                    <div class="mb-3">
+                        <label for="receiver_address" class="form-label">Receiver Address</label>
+                        <input type="text" class="form-control" id="receiver_address" name="receiver_address"
+                            value="{{ $parcel->receiver_address }}" readonly>
+                        @error('receiver_address')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
                     <!-- Add other parcel information fields -->
                     <div class="mb-3">
                         <label for="status" class="form-label">Status</label>
                         <select class="form-control" id="status" name="status" required>
-                            <option value="pending" {{ $parcel->status === 'pending' ? 'selected' : '' }}>Pending
+                            <option value="created" {{ $parcel->status === 'created' ? 'selected' : '' }}>Created
                             </option>
-                            <option value="in_transit" {{ $parcel->status === 'in_transit' ? 'selected' : '' }}>In
-                                Transit</option>
+                            <option value="picked_up" {{ $parcel->status === 'picked_up' ? 'selected' : '' }}>Picked Up
+                            </option>
+                            <option value="departed" {{ $parcel->status === 'departed' ? 'selected' : '' }}>Departed
+                            </option>
+                            <option value="out_for_delivery"
+                                {{ $parcel->status === 'out_for_delivery' ? 'selected' : '' }}>Out for Delivery
+                            </option>
                             <option value="delivered" {{ $parcel->status === 'delivered' ? 'selected' : '' }}>Delivered
                             </option>
                         </select>
@@ -65,6 +80,7 @@
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
+
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary">Update</button>
                     </div>

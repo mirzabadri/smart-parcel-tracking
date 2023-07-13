@@ -50,12 +50,16 @@
                 <p><strong>Description:</strong> {{ $parcel->description }}</p>
                 <p><strong>Tracking Number:</strong> {{ $parcel->tracking_number }}</p>
                 <p><strong>Status:</strong>
-                    @if ($parcel->status === 'pending')
-                        Pending
-                    @elseif ($parcel->status === 'in_transit')
-                        In Transit
+                    @if ($parcel->status === 'created')
+                        Order Created
+                    @elseif ($parcel->status === 'picked_up')
+                        Parcel has been picked up
+                    @elseif ($parcel->status === 'departed')
+                        Parcel has departed from the sorting facility
+                    @elseif ($parcel->status === 'out_for_delivery')
+                        Parcel is out for delivery
                     @elseif ($parcel->status === 'delivered')
-                        Delivered
+                        Parcel has been delivered
                     @else
                         Unknown
                     @endif
@@ -70,7 +74,6 @@
 
     @include('staff.layouts.footer')
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

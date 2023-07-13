@@ -3,14 +3,25 @@
 
 <head>
     <title>QR Scanner</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
         html,
         body {
-            width: 80%;
-            margin: 0 auto;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        #scanner-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     </style>
 
@@ -59,12 +70,9 @@
                         });
                     }
 
-
-
                     var html5QrcodeScanner = new Html5QrcodeScanner(
                         "scanner-container", {
-                            fps: 10,
-                            qrbox: 500
+                            fps: 10
                         },
                         /* verbose= */
                         false
@@ -74,23 +82,19 @@
             </div>
         </div>
     </main>
+
+    <!-- Vendor JS Files -->
+    <script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/chart.js/chart.umd.js') }}"></script>
+    <script src="{{ asset('assets/vendor/echarts/echarts.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/quill/quill.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
+    <script src="{{ asset('assets/vendor/tinymce/tinymce.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
+
+    <!-- Template Main JS File -->
+    <script src="{{ asset('assets/js/main.js') }}"></script>
 </body>
 
 </html>
-
-<!-- Vendor JS Files -->
-<script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
-<script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('assets/vendor/chart.js/chart.umd.js') }}"></script>
-<script src="{{ asset('assets/vendor/echarts/echarts.min.js') }}"></script>
-<script src="{{ asset('assets/vendor/quill/quill.min.js') }}"></script>
-<script src="{{ asset('assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
-<script src="{{ asset('assets/vendor/tinymce/tinymce.min.js') }}"></script>
-<script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
-
-<!-- Template Main JS File -->
-<script src="{{ asset('assets/js/main.js') }}"></script>
-
-<!-- Vendor JS Files -->
-<script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

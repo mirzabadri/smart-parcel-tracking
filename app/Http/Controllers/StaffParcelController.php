@@ -53,12 +53,25 @@ class StaffParcelController extends Controller
             'sender_phone_number' => 'required',
             'receiver_name' => 'required',
             'receiver_address' => 'required',
+            'receiver_phone_number' => 'required',
             'weight' => 'required|numeric',
             'description' => 'nullable',
             'tracking_number' => 'required|unique:parcels'
         ]);
 
-        Parcel::create($data);
+        $parcel = Parcel::create($data); // Save the new parcel and retrieve it from the database
+
+        try {
+            // Create a new tracking history entry
+            $trackingHistory = new TrackingHistory();
+            $trackingHistory->parcel_id = $parcel->id;
+            $trackingHistory->status = 'created'; // Initial status, you can modify it as needed
+            $trackingHistory->save();
+        } catch (\Exception $e) {
+            // Log or handle the exception
+            dd($e->getMessage()); // Print the error message for debugging
+        }
+
         return redirect()->route('staff.parcels.index')->with('message', 'Parcel created!');
     }
 
@@ -77,8 +90,8 @@ class StaffParcelController extends Controller
     public function edit($id)
     {
         $parcel = Parcel::where('id', $id)
-                        ->orWhere('tracking_number', $id)
-                        ->firstOrFail();
+            ->orWhere('tracking_number', $id)
+            ->firstOrFail();
 
         return view('staff.parcels.edit', compact('parcel'));
     }
@@ -91,8 +104,7 @@ class StaffParcelController extends Controller
         $parcel = Parcel::findOrFail($id);
 
         $data = $request->validate([
-            'status' => 'required|in:pending,in_transit,delivered',
-            'sender_name' => 'required',
+            'status' => 'required|in:picked_up,departed,out_for_delivery,delivered',
         ]);
 
         $parcel->update($data);
@@ -110,12 +122,12 @@ class StaffParcelController extends Controller
                 $twilioSid = env('TWILIO_SID');
                 $twilioAuthToken = env('TWILIO_AUTH_TOKEN');
                 $twilioPhoneNumber = env('TWILIO_PHONE_NUMBER');
-        
+
                 $client = new Client($twilioSid, $twilioAuthToken);
-        
+
                 $recipientPhoneNumber = $parcel->receiver_phone_number;
                 $message = "Your parcel has been delivered!";
-        
+
                 $client->messages->create(
                     "whatsapp:" . $recipientPhoneNumber,
                     [
@@ -123,13 +135,12 @@ class StaffParcelController extends Controller
                         'body' => $message,
                     ]
                 );
-                dd($e->getMessage());
             } catch (TwilioException $e) {
                 // Handle Twilio exception if something goes wrong with sending the WhatsApp message
             }
             //dd($e->getMessage());
         }
-        
+
 
         return redirect()->route('staff.parcels.index')->with('message', 'Parcel status updated!');
     }

@@ -50,20 +50,26 @@
                 <p><strong>Description:</strong> {{ $parcel->description }}</p>
                 <p><strong>Tracking Number:</strong> {{ $parcel->tracking_number }}</p>
                 <p><strong>Status:</strong>
-                    @if ($parcel->status === 'pending')
-                        Pending
-                    @elseif ($parcel->status === 'in_transit')
-                        In Transit
+                    @if ($parcel->status === 'created')
+                        Order Created
+                    @elseif ($parcel->status === 'picked_up')
+                        Parcel has been picked up
+                    @elseif ($parcel->status === 'departed')
+                        Parcel has departed from the sorting facility
+                    @elseif ($parcel->status === 'out_for_delivery')
+                        Parcel is out for delivery
                     @elseif ($parcel->status === 'delivered')
-                        Delivered
+                        Parcel has been delivered
                     @else
                         Unknown
                     @endif
                 </p>
-                <button id="show-qr-code" class="btn btn-primary">Show QR Code</button>
+                <button id="show-qr-code" class="btn btn-primary mb-2">Show QR Code</button>
                 <!-- Button to show the QR code -->
-                <button id="show-tracking-history" class="btn btn-primary">Show Tracking History</button>
+
+                <button id="show-tracking-history" class="btn btn-primary mb-2">Show Tracking History</button>
                 <!-- Button to show the tracking history -->
+
             </div>
             <div class="card-footer">
                 <a href="{{ route('parcels.index') }}" class="btn btn-secondary">Back</a>
@@ -75,7 +81,6 @@
 
     @include('layouts.footer')
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script>
         document.getElementById('show-qr-code').addEventListener('click', function() {
             const qrCodeSvg = `{!! QrCode::size(300)->format('svg')->generate($parcel->tracking_number) !!}`;
