@@ -15,25 +15,9 @@
         border-radius: 10px;
     }
 
-    .timeline-date {
-        margin-bottom: 5px;
-    }
-
     .tracking-body {
-        border-radius: 10px;
+        border-radius: 30px;
         color: #32baa5 !important;
-    }
-
-    .sender-receiver {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-    }
-
-    .sender-info,
-    .receiver-info {
-        display: flex;
-        gap: 2px;
     }
 
     .label {
@@ -52,13 +36,43 @@
         color: #32baa5;
         white-space: nowrap;
         overflow: hidden;
-        margin-right: 10px;
+        margin-right: 55px;
     }
 
     .tracking-status {
         color: #ffd859;
-        margin-left: 20px;
-        text-align: right !important;
+        margin-left: 70px;
+    }
+
+    .swiper-wrapper {
+        display: inline-flex;
+        flex-direction: row;
+        overflow-y: auto;
+        justify-content: center;
+    }
+
+    .swiper-slide {
+        text-align: center;
+        font-size: 12px;
+        width: 150px;
+        height: 100%;
+        position: relative;
+    }
+
+    .timeline-line {
+        border: none;
+        border-top: 3px solid #d9d9d9;
+        margin-top: 5px;
+    }
+
+    .timeline-circle {
+        width: 10px;
+        height: 10px;
+        background-color: #d9d9d9;
+        border-radius: 50%;
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 </style>
 
@@ -80,31 +94,38 @@
                         @foreach ($parcelData->sortByDesc('created_at') as $index => $tracking)
                             <div class="timeline-item">
                                 <a href="{{ route('parcels.show', $tracking->id) }}" class="card-link">
-                                    <div class="one-line" style="margin-bottom: 15px;">
+                                    <div style="margin-bottom: 15px;">
                                         <span class="tracking-number">{{ $tracking->tracking_number }}</span>
                                         <span class="tracking-status">{{ ucfirst($tracking->status) }}</span>
                                     </div>
                                     <div class="timeline-content">
                                         <div class="card card-body tracking-body">
-                                            <div class="sender-receiver-container">
-                                                <div class="sender-info" style="margin-top: 10px;">
-                                                    <span class="label">Sender:</span>
-                                                    <span class="value">{{ $tracking->sender_name }}</span>
+                                            <div class="swiper-wrapper">
+                                                <div class="swiper-slide">
+                                                    <div id="sender-side" style="margin-top: 10px;">
+                                                        <span id="sender-name" class="label" style="color: #32baa5;">{{ $tracking->sender_name }}</span>
+                                                    </div>
+                                                    <div class="timeline-line">
+                                                        <div class="timeline-circle"></div>
+                                                    </div>
+                                                    <div id="sender-address" style="margin-top: 10px;">
+                                                        <span class="label" style="color: #32baa5;">{{ $tracking->sender_address }}</span>
+                                                    </div>
                                                 </div>
-                                                <div class="sender-info">
-                                                    <span class="label">From:</span>
-                                                    <span class="value">{{ $tracking->sender_address }}</span>
-                                                </div>
-                                                <div class="receiver-info">
-                                                    <span class="label">Receiver:</span>
-                                                    <span class="value">{{ $tracking->receiver_name }}</span>
-                                                </div>
-                                                <div class="receiver-info">
-                                                    <span class="label">To:</span>
-                                                    <span class="value">{{ $tracking->receiver_address }}</span>
+                                                <div class="swiper-slide">
+                                                    <div id="receiver-side" style="margin-top: 10px;">
+                                                        <span id="receiver-name" class="label" style="color: #32baa5;">{{ $tracking->receiver_name }}</span>
+                                                    </div>
+                                                    <div class="timeline-line">
+                                                        <div class="timeline-circle"></div>
+                                                    </div>
+                                                    <div id="receiver-address" style="margin-top: 10px;">
+                                                        <span class="label" style="color: #32baa5;">{{ $tracking->receiver_address }}</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div id="status-time" style="color:#d9d9d9">Updated at {{ $tracking->updated_at->format('d/m/Y H:i A') }}</div>
                                     </div>
                                 </a>
                             </div>
@@ -114,5 +135,4 @@
             </div>
         </div>
     </div>
-    
 @endsection
