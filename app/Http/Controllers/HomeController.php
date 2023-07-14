@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Parcel;
+
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +25,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        // Fetch the parcel data from your database or any other source
+        $parcelData = Parcel::all(); // Replace 'Parcel' with your actual model name or data source
+    
+        return view('home', compact('parcelData'));
     }
 }
