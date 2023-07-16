@@ -3,6 +3,7 @@
 
 <head>
     <title>QR Scanner</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -14,14 +15,20 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
-        }
+        }   
 
         #scanner-container {
             width: 100%;
-            height: 100%;
+            height: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        #scanner-container .scanner-container__dashboard {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
         }
     </style>
 
@@ -45,7 +52,12 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Scan Parcel</h5>
-                <div id="scanner-container"></div>
+                <div id="scanner-container">
+                    <div id="html5-qrcode-camera"></div>
+                    <div class="scanner-container__dashboard">
+                        <!-- Add content for the scanner container dashboard here -->
+                    </div>
+                </div>
 
                 <script>
                     $.ajaxSetup({
@@ -71,7 +83,7 @@
                     }
 
                     var html5QrcodeScanner = new Html5QrcodeScanner(
-                        "scanner-container", {
+                        "html5-qrcode-camera", {
                             fps: 10
                         },
                         /* verbose= */
